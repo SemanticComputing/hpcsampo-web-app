@@ -48,17 +48,72 @@
                 }
             }
         },
+        "locations": {
+            "tabID": 2,
+            "tabPath": "map",
+            "tabIcon": "AddLocation",
+            "component": "LeafletMap",
+            "showInstanceCountInClusters": false,
+            "showExternalLayers": true,
+            "customMapControl": true,
+            "sparqlQuery": "findsPlacesQuery",
+            "facetClass": "finds",
+            "filterTarget": "id",
+            "resultMapper": "mapPlaces",
+            "instanceConfig": {
+                "propertiesQueryBlock": "findPropertiesInstancePage",
+                "createPopUpContent": "createPopUpContentFindSampo"
+            }
+        },
         "export": {
-            "tabID": 1,
+            "tabID": 3,
             "component": "Export",
             "tabPath": "export",
             "tabIcon": "CloudDownload",
-            "resultClass": "perspective1",
-            "facetClass": "perspective1"
+            "resultClass": "tsv",
+            "facetClass": "tsv"
+        },
+        "societyByNumericProperty": {
+            "tabID": 1,
+            "component": "ApexCharts",
+            "doNotRenderOnMount": true,
+            "tabPath": "line_chart",
+            "tabIcon": "ShowChart",
+            "facetClass": "tsv",
+            "dropdownForResultClasses": true,
+            "defaultResultClass": "foundingChart",
+            "resultClasses": {
+                "foundingChart": {
+                    "sparqlQuery": "foundingChartQuery",
+                    "filterTarget": "society",
+                    "resultMapper": "mapLineChart",
+                    "createChartData": "createSingleLineChartData",
+                    "xaxisType": "numeric",
+                    "xaxisTitle": "",
+                    "xaxisTickAmount": 30,
+                    "yaxisTitle": "",
+                    "seriesTitle": "",
+                    "stroke": {
+                        "width": 2
+                    },
+                    "resultMapperConfig": {
+                        "fillEmptyValues": true
+                    }
+                }
+            }
         },
         "knowledgeGraphMetadata": {
             "sparqlQuery": "knowledgeGraphMetadataQuery",
             "resultMapper": "makeObjectList"
+        }
+    },
+    "maps": {
+        "locations": {
+            "center": [
+                65.184809,
+                27.314050
+            ],
+            "zoom": 5
         }
     },
     "properties": [
@@ -87,7 +142,7 @@
             "externalLink": false,
             "sortValues": true,
             "numberedList": false,
-            "minWidth": 150,
+            "minWidth": 100,
             "onlyOnInstancePage": false
         },
         {
@@ -95,6 +150,15 @@
             "valueType": "string",
             "makeLink": true,
             "externalLink": false,
+            "sortValues": true,
+            "numberedList": false,
+            "minWidth": 100
+        },
+        {
+            "id": "description",
+            "valueType": "object",
+            "makeLink": true,
+            "externalLink": true,
             "sortValues": true,
             "numberedList": false,
             "minWidth": 250
@@ -106,11 +170,41 @@
             "externalLink": true,
             "sortValues": true,
             "numberedList": false,
-            "minWidth": 150
+            "minWidth": 250
+        },
+        {
+            "id": "category",
+            "valueType": "object",
+            "makeLink": true,
+            "externalLink": true,
+            "sortValues": true,
+            "numberedList": false,
+            "minWidth": 250
+        },
+        {
+            "id": "location",
+            "valueType": "object",
+            "makeLink": true,
+            "externalLink": true,
+            "sortValues": true,
+            "numberedList": false,
+            "minWidth": 250
         }
     ],
     "facets": {
-        "membership": {
+        "prefLabel": {
+            "containerClass": "ten",
+            "facetType": "list",
+            "literal": true,
+            "filterType": "uriFilter",
+            "predicate": "tsv:Seuran_nimi_englanniksi",
+            "searchField": true,
+            "sortButton": true,
+            "sortBy": "instanceCount",
+            "sortByPredicate": "tsv:Seuran_nimi_englanniksi",
+            "sortDirection": "desc"
+        },
+        "foundingYear": {
             "containerClass": "ten",
             "facetType": "list",
             "literal": true,
@@ -118,8 +212,50 @@
             "predicate": "tsv:Perustamisvuosi",
             "searchField": true,
             "sortButton": true,
+            "pieChartButton": true,
+            "barChartButton": true,
             "sortBy": "instanceCount",
             "sortByPredicate": "tsv:Perustamisvuosi",
+            "sortDirection": "desc"
+        },
+        "foundingYearNumeric": {
+            "containerClass": "five",
+            "facetType": "integer",
+            "filterType": "integerFilterRange",
+            "predicate": "tsv:Perustamisvuosi",
+            "sortByPredicate": "tsv:Perustamisvuosi",
+            "unit": ""
+        },
+        "membership": {
+            "containerClass": "five",
+            "facetType": "integer",
+            "filterType": "integerFilterRange",
+            "predicate": "tsv:Jäsenmäärä",
+            "sortByPredicate": "tsv:Jäsenmäärä",
+            "unit": ""
+        },
+        "category": {
+            "containerClass": "ten",
+            "facetType": "list",
+            "literal": true,
+            "filterType": "uriFilter",
+            "predicate": "tsv:category",
+            "searchField": true,
+            "sortButton": true,
+            "sortBy": "instanceCount",
+            "sortByPredicate": "tsv:Seuran_nimi_englanniksi",
+            "sortDirection": "desc"
+        },
+        "location": {
+            "containerClass": "ten",
+            "facetType": "list",
+            "literal": true,
+            "filterType": "uriFilter",
+            "predicate": "tsv:location",
+            "searchField": true,
+            "sortButton": true,
+            "sortBy": "instanceCount",
+            "sortByPredicate": "tsv:Seuran_nimi_englanniksi",
             "sortDirection": "desc"
         }
     }

@@ -24,9 +24,39 @@ export const societyProperties = `
     }
     UNION
     {
+      ?id tsv:Muuta_olennaista_tietoa ?description__id .
+      ?id tsv:Muuta_olennaista_tietoa ?description__prefLabel .
+    }
+    UNION
+    {
       ?id tsv:Perustamisvuosi ?foundingYear .
     }
 
+`
+
+export const membersChartQuery = `
+  SELECT ?category
+  (COUNT(DISTINCT ?society) as ?count)
+  WHERE {
+    <FILTER>
+    ?society tsv:Jäsenmäärä ?category ;
+              a tsv:Society .
+  }
+  GROUP BY ?category
+  ORDER BY ?category
+`
+
+
+export const foundingChartQuery = `
+  SELECT ?category
+  (COUNT(DISTINCT ?society) as ?count)
+  WHERE {
+    <FILTER>
+    ?society tsv:Perustamisvuosi ?category ;
+              a tsv:Society .
+  }
+  GROUP BY ?category
+  ORDER BY ?category
 `
 
 export const knowledgeGraphMetadataQuery = `
